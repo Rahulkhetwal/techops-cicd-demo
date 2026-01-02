@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rahulkhetwal/techops-pipeline-app"
+        IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
     stages {
@@ -15,7 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:latest .'
+                sh 'docker build -t $DOCKER_IMAGE:$IMAGE_TAG .'
             }
         }
 
@@ -50,6 +51,9 @@ pipeline {
         }
         failure {
             echo "❌ Pipeline failed. Check logs."
+        }
+        always {
+            echo "Pipeline execution completed."
         }
     }
 }
